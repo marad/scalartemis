@@ -1,11 +1,18 @@
 package marad.scalartemis.core
 
-import scala.beans.BeanProperty
-
 class Entity(val world: World, val id: Int) {
-  var uniqueId: Long = 0l
-  var typeBits: Long = 0l
-  var systemBits: Long = 0l
+  private var _active = false
 
-  def reset():Unit = ???
+  def activate(): Unit = {
+    _active = true
+  }
+
+  def deactivate(): Unit = {
+    _active = false
+  }
+
+  def addComponent(component: Component): Unit =
+    world.componentAdded(this, component)
+  def removeComponent(component: Component): Unit =
+    world.componentRemoved(this, component)
 }

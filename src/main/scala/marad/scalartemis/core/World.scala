@@ -1,10 +1,45 @@
 package marad.scalartemis.core
 
-class World {
-  //type ManagerClass = _ <: Manager
-  private var delta = 0
-  private var refreshed = Vector.empty[Entity]
-  private var deleted = Vector.empty[Entity]
+import marad.scalartemis.core.utils.{IdGenerator, MutableBag}
+import scala.collection.mutable
 
-//  private val managers = mutable.Map[()
+class World {
+  val entityIdGenerator = new IdGenerator
+  val entities = new MutableBag[Entity]()
+  val systems = new MutableBag[EntitySystem]()
+
+  def initialize() = ???
+  def update(delta: Float) = {
+    // for each system invoke update and
+    // systems should keep track of entities they are interested in
+  }
+  // TODO: cannot register system after initialize was called
+  // TODO OR: pass required entities to entity system
+  def registerSystem(entitySystem: EntitySystem) = {
+    systems.add(entitySystem)
+    entitySystem.onRegister(this)
+  }
+
+  def componentAdded(entity: Entity, component: Component) = ???
+  def componentRemoved(entity: Entity, component: Component) = ???
+
+  def createEntity() = {
+    val entity = new Entity(this, entityIdGenerator.nextId)
+    entities.add(entity)
+    systems.foreach(_.entityCreated(entity))
+    entity
+  }
+
+  def destroyEntity(entity: Entity) = {
+    entities.remove(entity)
+    systems.foreach(_.entityDestroyed(entity))
+  }
+
+}
+
+object World {
+//  type ComponentAddCallback = (Entity, Component) => Unit
+//  type ComponentRemoveCallback = (Entity, Component) => Unit
+//  type EntityCreatedCallback = Entity => Unit
+//  type EntityDestroyedCallback = Entity => Unit
 }
