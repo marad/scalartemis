@@ -1,7 +1,6 @@
 package marad.scalartemis.core
 
 import marad.scalartemis.core.utils.{IdGenerator, MutableBag}
-import scala.collection.mutable
 
 class World {
   val entityIdGenerator = new IdGenerator
@@ -9,10 +8,7 @@ class World {
   val systems = new MutableBag[EntitySystem]()
 
   def initialize() = ???
-  def update(delta: Float) = {
-    // for each system invoke update and
-    // systems should keep track of entities they are interested in
-  }
+  def update(delta: Float) = systems.foreach(_.update())
   // TODO: cannot register system after initialize was called
   // TODO OR: pass required entities to entity system
   def registerSystem(entitySystem: EntitySystem) = {
