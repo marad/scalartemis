@@ -11,15 +11,13 @@ class World {
 
   def initialize() = ???
   def update(delta: Float) = _systems.foreach(_.update())
-  // TODO: cannot register system after initialize was called
-  // TODO OR: pass required _entities to entity system
   def registerSystem(entitySystem: EntitySystem) = {
     _systems.add(entitySystem)
-    entitySystem.onRegister(this)
+    entitySystem.onRegister(_entities)
   }
 
-  def componentAdded(entity: Entity, component: Component) = ???
-  def componentRemoved(entity: Entity, component: Component) = ???
+  def componentAdded(entity: Entity, component: Component): Unit = ???
+  def componentRemoved(entity: Entity, component: Component): Unit = ???
 
   def createEntity(components: Component*) = {
     val entity = new Entity(this, _entityIdGenerator.nextId)
@@ -33,8 +31,6 @@ class World {
     _entities.remove(entity)
     _systems.foreach(_.entityDestroyed(entity))
   }
-
-
 }
 
 object World {

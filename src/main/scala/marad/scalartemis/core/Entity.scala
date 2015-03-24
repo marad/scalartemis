@@ -6,6 +6,8 @@ class Entity(val world: World, val id: Int) {
   private var _active = false
   private val _componentTypes = new mutable.BitSet()
 
+  def active = _active
+
   def activate(): Unit = {
     _active = true
   }
@@ -16,11 +18,11 @@ class Entity(val world: World, val id: Int) {
 
   def addComponent(component: Component): Unit = {
     _componentTypes.add(component.typeId)
-//    world.componentAdded(this, component)
+    world.componentAdded(this, component)
   }
   def removeComponent(component: Component): Unit = {
     _componentTypes.remove(component.typeId)
-//    world.componentRemoved(this, component)
+    world.componentRemoved(this, component)
   }
 
   def componentTypes = _componentTypes.clone()
