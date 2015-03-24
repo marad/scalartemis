@@ -3,18 +3,7 @@ package marad.scalartemis.core
 import scala.collection.mutable
 
 class Entity(val world: World, val id: Int) {
-  private var _active = false
   private val _componentTypes = new mutable.BitSet()
-
-  def active = _active
-
-  def activate(): Unit = {
-    _active = true
-  }
-
-  def deactivate(): Unit = {
-    _active = false
-  }
 
   def addComponent(component: Component): Unit = {
     _componentTypes.add(component.typeId)
