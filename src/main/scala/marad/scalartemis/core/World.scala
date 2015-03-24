@@ -34,8 +34,4 @@ class World {
 }
 
 object World {
-//  type ComponentAddCallback = (Entity, Component) => Unit
-//  type ComponentRemoveCallback = (Entity, Component) => Unit
-//  type EntityCreatedCallback = Entity => Unit
-//  type EntityDestroyedCallback = Entity => Unit
 }

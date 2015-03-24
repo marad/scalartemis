@@ -2,9 +2,10 @@ package marad.scalartemis.core
 
 import marad.scalartemis.BDD
 import marad.scalartemis.core.utils.Bag
+import org.scalatest.mock.MockitoSugar
 import org.scalatest.{Matchers, WordSpec}
 
-class EntitySystemTest extends WordSpec with Matchers with BDD {
+class EntitySystemTest extends WordSpec with Matchers with BDD with MockitoSugar {
   class C1 extends Component
   class C2 extends Component
 
@@ -13,9 +14,12 @@ class EntitySystemTest extends WordSpec with Matchers with BDD {
   }
 
   val (c1, c2) = (new C1, new C2)
-  val world = new World
-  val entityC1   = world.createEntity(c1)
-  val entityC1C2 = world.createEntity(c1, c2)
+  val world = mock[World]
+  val entityC1   = new Entity(world, 0)
+  entityC1.addComponent(c1)
+  val entityC1C2 = new Entity(world, 1)
+  entityC1C2.addComponent(c1)
+  entityC1C2.addComponent(c2)
 
   "Entity System" should {
     "register only entities with given aspects" in {

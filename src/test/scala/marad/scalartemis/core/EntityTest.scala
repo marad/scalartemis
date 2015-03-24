@@ -15,12 +15,12 @@ class EntityTest extends WordSpec with Matchers with BDD with MockitoSugar {
     ComponentTypeManager.getTypeFor(classOf[C1]).id,
     ComponentTypeManager.getTypeFor(classOf[C2]).id,
     ComponentTypeManager.getTypeFor(classOf[C3]).id)
-  val world = new World
 
   "Entity" should {
     "register proper component types" in {
       Given
-      val entity = world.createEntity()
+      val worldMock = mock[World]
+      val entity = new Entity(worldMock, 0)
 
       When
       entity.addComponent(c1)
@@ -43,6 +43,18 @@ class EntityTest extends WordSpec with Matchers with BDD with MockitoSugar {
 
       Then
       verify(worldMock).componentAdded(entity, c1)
+    }
+
+    "notify world about removed component" in {
+      Given
+      val worldMock = mock[World]
+      val entity = new Entity(worldMock, 0)
+
+      When
+      entity.removeComponent(c1)
+
+      Then
+      verify(worldMock).componentRemoved(entity, c1)
     }
   }
 }
