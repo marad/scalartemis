@@ -1,35 +1,39 @@
 package marad.scalartemis.core
 
-import marad.scalartemis.core.utils.{IdGenerator, MutableBag}
+import marad.scalartemis.core.utils.{Bag, IdGenerator, MutableBag}
 
 class World {
-  val entityIdGenerator = new IdGenerator
-  val entities = new MutableBag[Entity]()
-  val systems = new MutableBag[EntitySystem]()
+  private val _entityIdGenerator = new IdGenerator
+  private val _entities = new MutableBag[Entity]()
+  private val _systems = new MutableBag[EntitySystem]()
+
+  def entities: Bag[Entity] = _entities
 
   def initialize() = ???
-  def update(delta: Float) = systems.foreach(_.update())
+  def update(delta: Float) = _systems.foreach(_.update())
   // TODO: cannot register system after initialize was called
-  // TODO OR: pass required entities to entity system
+  // TODO OR: pass required _entities to entity system
   def registerSystem(entitySystem: EntitySystem) = {
-    systems.add(entitySystem)
+    _systems.add(entitySystem)
     entitySystem.onRegister(this)
   }
 
   def componentAdded(entity: Entity, component: Component) = ???
   def componentRemoved(entity: Entity, component: Component) = ???
 
-  def createEntity() = {
-    val entity = new Entity(this, entityIdGenerator.nextId)
-    entities.add(entity)
-    systems.foreach(_.entityCreated(entity))
+  def createEntity(components: Component*) = {
+    val entity = new Entity(this, _entityIdGenerator.nextId)
+    components.foreach(entity.addComponent)
+    _entities.add(entity)
+    _systems.foreach(_.entityCreated(entity))
     entity
   }
 
   def destroyEntity(entity: Entity) = {
-    entities.remove(entity)
-    systems.foreach(_.entityDestroyed(entity))
+    _entities.remove(entity)
+    _systems.foreach(_.entityDestroyed(entity))
   }
+
 
 }
 

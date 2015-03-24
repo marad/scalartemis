@@ -4,7 +4,7 @@ import scala.collection.mutable
 
 class Entity(val world: World, val id: Int) {
   private var _active = false
-  private val componentTypes = new mutable.BitSet()
+  private val _componentTypes = new mutable.BitSet()
 
   def activate(): Unit = {
     _active = true
@@ -15,11 +15,13 @@ class Entity(val world: World, val id: Int) {
   }
 
   def addComponent(component: Component): Unit = {
-    componentTypes.add(component.componentType.id)
-    world.componentAdded(this, component)
+    _componentTypes.add(component.typeId)
+//    world.componentAdded(this, component)
   }
   def removeComponent(component: Component): Unit = {
-    componentTypes.remove(component.componentType.id)
-    world.componentRemoved(this, component)
+    _componentTypes.remove(component.typeId)
+//    world.componentRemoved(this, component)
   }
+
+  def componentTypes = _componentTypes.clone()
 }
