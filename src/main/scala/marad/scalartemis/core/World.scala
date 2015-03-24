@@ -9,15 +9,16 @@ class World {
 
   def entities: Bag[Entity] = _entities
 
-  def initialize() = ???
   def update(delta: Float) = _systems.foreach(_.update())
+
   def registerSystem(entitySystem: EntitySystem) = {
     _systems.add(entitySystem)
     entitySystem.onRegister(_entities)
   }
 
-  def componentAdded(entity: Entity, component: Component): Unit = ???
-  def componentRemoved(entity: Entity, component: Component): Unit = ???
+  def componentAdded(entity: Entity, component: Component): Unit = {}
+
+  def componentRemoved(entity: Entity, component: Component): Unit = {}
 
   def createEntity(components: Component*) = {
     val entity = new Entity(this, _entityIdGenerator.nextId)
@@ -31,7 +32,4 @@ class World {
     _entities.remove(entity)
     _systems.foreach(_.entityDestroyed(entity))
   }
-}
-
-object World {
 }

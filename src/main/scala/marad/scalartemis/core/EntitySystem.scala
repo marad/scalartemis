@@ -2,6 +2,8 @@ package marad.scalartemis.core
 
 import marad.scalartemis.core.utils.{Bag, MutableBag}
 
+import scala.reflect.ClassTag
+
 abstract class EntitySystem(aspect: Aspect) {
   private val _entities = new MutableBag[Entity]
 
@@ -22,5 +24,7 @@ abstract class EntitySystem(aspect: Aspect) {
   def update(): Unit = process(_entities)
 
   def process(entities: Bag[Entity]): Unit
-}
 
+  // TODO: get component for entity
+  def component[T:ClassTag](entity: Entity): Option[T] = ???
+}
