@@ -1,5 +1,16 @@
 package marad.scalartemis.core.utils
 
+/**
+ * This array let's you store values in array without worying about it's size.
+ * You can simply assign a value to any index. Size of the array depends on
+ * the difference between minimum and maximum used index.
+ *
+ * Warning: trying to access non-existing indices below minimum and above maximum
+ * will result in <code>ArrayIndexOutOfBoundsException</code>. If you try to access
+ * non-existing element between minimum and maximum index you will get null value.
+ *
+ * @tparam A type for stored elements
+ */
 class DynamicArray[A] {
   protected def initialSize = 1
   protected var array: Array[AnyRef] = new Array[AnyRef](math.max(initialSize, 1))
@@ -9,6 +20,9 @@ class DynamicArray[A] {
   def internalArrayLength = array.length
 
   def apply(idx: Int): A = {
+    if (idx < minIndex || idx >= maxIndex) {
+      throw new ArrayIndexOutOfBoundsException(s"$idx")
+    }
     array(idx - minIndex).asInstanceOf[A]
   }
 

@@ -47,5 +47,21 @@ class DynamicArrayTest extends WordSpec with Matchers with BDD with PropertyChec
         unoptimized(max) shouldBe max
       }
     }
+
+    "should fail if trying to access not existing array elements" in {
+      Given
+      val array = new DynamicArray[Int]
+      array(100) = 100
+      array(105) = 105
+
+      When
+      val ex = intercept[ArrayIndexOutOfBoundsException] {
+        array(10)
+      }
+
+      Then
+      ex shouldNot be (null)
+      ex.getMessage shouldBe "10"
+    }
   }
 }
