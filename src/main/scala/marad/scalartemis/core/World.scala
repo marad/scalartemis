@@ -4,16 +4,16 @@ import marad.scalartemis.core.utils.{Bag, IdGenerator, MutableBag}
 
 class World {
   private val _entityIdGenerator = new IdGenerator
-  private val _entities = new MutableBag[Entity]()
   private val _systems = new MutableBag[EntitySystem]()
+  private val entityManager = new EntityManager(this)
 
-  def entities: Bag[Entity] = _entities
+  def entities: Bag[Entity] = entityManager.entities
 
   def update(delta: Float) = _systems.foreach(_.update())
 
   def registerSystem(entitySystem: EntitySystem) = {
     _systems.add(entitySystem)
-    entitySystem.onRegister(_entities)
+    entitySystem.onRegister(this)
   }
 
   def componentAdded(entity: Entity, component: Component): Unit = {}
@@ -21,15 +21,12 @@ class World {
   def componentRemoved(entity: Entity, component: Component): Unit = {}
 
   def createEntity(components: Component*) = {
-    val entity = new Entity(this, _entityIdGenerator.nextId)
+    val entity = entityManager.acquireEntity()
     components.foreach(entity.addComponent)
-    _entities.add(entity)
-    _systems.foreach(_.entityCreated(entity))
     entity
   }
 
   def destroyEntity(entity: Entity) = {
-    _entities.remove(entity)
-    _systems.foreach(_.entityDestroyed(entity))
+    entityManager.releaseEntity(entity)
   }
 }

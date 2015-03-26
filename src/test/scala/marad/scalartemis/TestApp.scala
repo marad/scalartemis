@@ -9,7 +9,7 @@ object TestApp {
   class C2 extends Component
 
   class TestSystem extends EntitySystem(Aspect.forAll(classOf[C1], classOf[C2])) {
-    override def process(entities: Bag[Entity]): Unit = {
+    override def process(entities: Iterable[Entity]): Unit = {
       entities.foreach { entity =>
         println(s"Processing entity ${entity.id}")
         val c = component[C1](entity)

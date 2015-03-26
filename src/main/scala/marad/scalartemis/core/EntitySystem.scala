@@ -5,25 +5,15 @@ import marad.scalartemis.core.utils.{Bag, MutableBag}
 import scala.reflect.ClassTag
 
 abstract class EntitySystem(aspect: Aspect) {
-  private val _entities = new MutableBag[Entity]
+  private var _world: World = null
 
-  def entities: Bag[Entity] = _entities
+  def world = _world
 
-  def onRegister(entities: Bag[Entity]): Unit = entities.foreach(entityCreated)
+  def onRegister(world: World): Unit = _world = world
 
-  def entityCreated(entity: Entity): Unit =
-    if (aspect ~ entity) {
-      _entities.add(entity)
-    }
+  def update(): Unit = process(world.entities.filter(e => aspect ~ e))
 
-  def entityDestroyed(entity: Entity): Unit =
-    if (aspect ~ entity) {
-      _entities.remove(entity)
-    }
-
-  def update(): Unit = process(_entities)
-
-  def process(entities: Bag[Entity]): Unit
+  def process(entities: Iterable[Entity]): Unit
 
   // TODO: get component for entity
   def component[T:ClassTag](entity: Entity): Option[T] = ???
