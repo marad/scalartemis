@@ -3,8 +3,8 @@ package marad.scalartemis.core.utils
 import scala.reflect.ClassTag
 
 class MutableBag[T:ClassTag](_capacity: Int = 16) extends Bag[T] {
-  private var _data: Array[T] = Array.ofDim[T](_capacity)
-  private var _size: Int = 0
+  protected var _data: Array[T] = Array.ofDim[T](_capacity)
+  protected var _size: Int = 0
 
   override def size = _size
   override def isEmpty = _size == 0
