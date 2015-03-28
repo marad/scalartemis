@@ -1,6 +1,5 @@
 package marad.scalartemis
 
-import marad.scalartemis.core.utils.Bag
 import marad.scalartemis.core._
 
 object TestApp {

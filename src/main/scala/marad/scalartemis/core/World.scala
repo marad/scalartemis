@@ -1,11 +1,12 @@
 package marad.scalartemis.core
 
-import marad.scalartemis.core.utils.{Bag, IdGenerator, MutableBag}
+import marad.scalartemis.core.utils.{Bag, MutableBag}
 
 class World {
-  private val _entityIdGenerator = new IdGenerator
-  private val _systems = new MutableBag[EntitySystem]()
   private val entityManager = new EntityManager(this)
+  private val _systems = new MutableBag[EntitySystem]()
+
+  // private val componentsByEntityId: DynamicArray[DynamicArray[Component]]
 
   def entities: Bag[Entity] = entityManager.entities
 

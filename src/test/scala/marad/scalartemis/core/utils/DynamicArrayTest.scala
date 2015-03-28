@@ -28,7 +28,7 @@ class DynamicArrayTest extends WordSpec with Matchers with BDD with PropertyChec
       }
     }
 
-    "should optimize the array" in {
+    "optimize the array" in {
       for(min <- 0 to 100; max <- 101 to 300) {
         Given
         val diff = max - min
@@ -48,7 +48,7 @@ class DynamicArrayTest extends WordSpec with Matchers with BDD with PropertyChec
       }
     }
 
-    "should fail if trying to access not existing array elements" in {
+    "fail if trying to access not existing array elements" in {
       Given
       val array = new DynamicArray[Int]
       array(100) = 100
@@ -62,6 +62,22 @@ class DynamicArrayTest extends WordSpec with Matchers with BDD with PropertyChec
       Then
       ex shouldNot be (null)
       ex.getMessage shouldBe "10"
+    }
+
+    "be able to determine that value is defined at given location" in {
+      Given
+      val array = new DynamicArray[Int]
+
+      When
+      array(100) = 100
+      array(105) = 105
+
+      Then
+      array.defined(90) shouldBe false
+      array.defined(100) shouldBe true
+      array.defined(102) shouldBe false
+      array.defined(105) shouldBe true
+      array.defined(110) shouldBe false
     }
   }
 }

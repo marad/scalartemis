@@ -5,22 +5,23 @@ import marad.scalartemis.core.ComponentTypeManager.ComponentClass
 import scala.collection.BitSet
 
 abstract class Aspect {
-  def ~(entity: Entity): Boolean
+  def ~(entity: Entity): Boolean = this.~(entity.componentTypes)
+  def ~(types: BitSet): Boolean
 }
 
 class AspectAll(types: ComponentType*) extends Aspect {
   val set = BitSet(types.map(_.id):_*)
-  override def ~(entity: Entity): Boolean = (set & entity.componentTypes) == set
+  override def ~(types: BitSet): Boolean = (set & types) == set
 }
 
 class AspectOneOf(types: ComponentType*) extends Aspect {
   val set = BitSet(types.map(_.id):_*)
-  override def ~(entity: Entity): Boolean = (set & entity.componentTypes).nonEmpty
+  override def ~(types: BitSet): Boolean = (set & types).nonEmpty
 }
 
 class AspectOnly(types: ComponentType*) extends Aspect {
   val set = BitSet(types.map(_.id):_*)
-  override def ~(entity: Entity): Boolean = (set ^ entity.componentTypes).isEmpty
+  override def ~(types: BitSet): Boolean = (set ^ types).isEmpty
 }
 
 object Aspect {

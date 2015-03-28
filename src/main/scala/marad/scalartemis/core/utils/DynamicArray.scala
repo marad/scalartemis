@@ -19,6 +19,11 @@ class DynamicArray[A] {
 
   def internalArrayLength = array.length
 
+  def defined(idx: Int): Boolean = {
+    if (idx < minIndex || idx >= maxIndex) false
+    else this(idx) != null
+  }
+
   def apply(idx: Int): A = {
     if (idx < minIndex || idx >= maxIndex) {
       throw new ArrayIndexOutOfBoundsException(s"$idx")

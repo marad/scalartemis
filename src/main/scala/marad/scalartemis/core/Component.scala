@@ -1,5 +1,6 @@
 package marad.scalartemis.core
 
 class Component {
-  val typeId = ComponentTypeManager.getTypeFor(this.getClass).id
+  val componentType = ComponentTypeManager.getTypeFor(this.getClass)
+  val typeId = componentType.id // TODO: remove this
 }
