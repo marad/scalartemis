@@ -1,6 +1,5 @@
-package marad.scalartemis.core
+package marad.scalartemis
 
-import marad.scalartemis.BDD
 import org.scalatest.mock.MockitoSugar
 import org.scalatest.{Matchers, WordSpec}
 

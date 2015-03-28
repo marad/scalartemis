@@ -1,8 +1,8 @@
-package marad.scalartemis.core
+package marad.scalartemis
 
-import marad.scalartemis.core.entity.{EntityComponentHandler, EntityAspectHandler, EntityManager, Entity}
-import marad.scalartemis.core.exception.ComponentNotFoundException
-import marad.scalartemis.core.utils.{Bag, MutableBag}
+import marad.scalartemis.entity.{EntityComponentHandler, EntityAspectHandler, EntityManager, Entity}
+import marad.scalartemis.exception.ComponentNotFoundException
+import marad.scalartemis.utils.{Bag, MutableBag}
 
 class World
     extends World.ComponentManagement

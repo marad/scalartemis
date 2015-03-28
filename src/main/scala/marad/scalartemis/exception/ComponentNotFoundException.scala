@@ -1,4 +1,4 @@
-package marad.scalartemis.core.exception
+package marad.scalartemis.exception
 
 class ComponentNotFoundException extends RuntimeException {
 }

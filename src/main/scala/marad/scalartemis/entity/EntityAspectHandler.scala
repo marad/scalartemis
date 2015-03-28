@@ -1,8 +1,8 @@
-package marad.scalartemis.core.entity
+package marad.scalartemis.entity
 
-import marad.scalartemis.core.entity.ComponentTypeManager.ComponentClass
-import marad.scalartemis.core.{Aspect, Component, ComponentType}
-import marad.scalartemis.core.utils.DynamicArray
+import marad.scalartemis.entity.ComponentTypeManager.ComponentClass
+import marad.scalartemis.{Aspect, Component, ComponentType}
+import marad.scalartemis.utils.DynamicArray
 
 import scala.collection.mutable
 

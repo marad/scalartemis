@@ -1,4 +1,4 @@
-package marad.scalartemis.core.utils
+package marad.scalartemis.utils
 
 class IdGenerator {
   private var _nextId = -1

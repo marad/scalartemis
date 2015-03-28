@@ -1,6 +1,6 @@
-package marad.scalartemis.core.entity
+package marad.scalartemis.entity
 
-import marad.scalartemis.core.utils.{Bag, DynamicArray, IdGenerator, MutableBag}
+import marad.scalartemis.utils.{Bag, DynamicArray, IdGenerator, MutableBag}
 
 import scala.collection.mutable
 

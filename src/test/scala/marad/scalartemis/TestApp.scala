@@ -1,20 +1,21 @@
 package marad.scalartemis
 
-import marad.scalartemis.core._
-import marad.scalartemis.core.entity.Entity
+import marad.scalartemis.entity.Entity
 
 object TestApp {
 
-  class C1 extends Component
+  class C1 extends Component {
+    val msg = "Hello"
+  }
   class C2 extends Component
 
   class TestSystem(val world: World)
-    extends EntitySystem(Aspect.onlyFor(classOf[C1]))
+    extends EntitySystem(Aspect.forAll(classOf[C1]))
     with ComponentMapping
   {
     override def process(entity: Entity, delta: Float): Unit = {
-      println(s"Processing entity ${entity.id}")
       val c: Option[C1] = component[C1](entity)
+      println(s"Processing entity ${entity.id}. Message: ${c.get.msg}")
     }
   }
 

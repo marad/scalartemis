@@ -1,3 +1,3 @@
-package marad.scalartemis.core
+package marad.scalartemis
 
 class ComponentType(val id: Int) extends AnyVal

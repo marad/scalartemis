@@ -1,4 +1,4 @@
-package marad.scalartemis.core.utils
+package marad.scalartemis.utils
 
 import scala.reflect.ClassTag
 

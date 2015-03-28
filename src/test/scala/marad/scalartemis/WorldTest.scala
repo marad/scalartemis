@@ -1,8 +1,7 @@
-package marad.scalartemis.core
+package marad.scalartemis
 
-import marad.scalartemis.BDD
-import marad.scalartemis.core.entity.Entity
-import marad.scalartemis.core.exception.ComponentNotFoundException
+import marad.scalartemis.entity.Entity
+import marad.scalartemis.exception.ComponentNotFoundException
 import org.scalatest.mock.MockitoSugar
 import org.scalatest.{OptionValues, Matchers, WordSpec}
 import org.mockito.Mockito.{when, verify, times}

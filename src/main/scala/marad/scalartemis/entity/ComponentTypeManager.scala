@@ -1,7 +1,7 @@
-package marad.scalartemis.core.entity
+package marad.scalartemis.entity
 
-import marad.scalartemis.core.utils.IdGenerator
-import marad.scalartemis.core.{Component, ComponentType}
+import marad.scalartemis.utils.IdGenerator
+import marad.scalartemis.{Component, ComponentType}
 
 import scala.collection.mutable
 

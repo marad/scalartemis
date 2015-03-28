@@ -1,6 +1,5 @@
-package marad.scalartemis.core
+package marad.scalartemis
 
-import marad.scalartemis.BDD
 import org.scalatest.{Matchers, WordSpec}
 
 class ComponentMappingTest extends WordSpec with Matchers with BDD {
