@@ -1,4 +1,4 @@
-package marad.scalartemis.core
+package marad.scalartemis.core.entity
 
 import marad.scalartemis.BDD
 import org.scalatest.mock.MockitoSugar
@@ -6,12 +6,10 @@ import org.scalatest.{Matchers, WordSpec}
 
 class EntityManagerTest extends WordSpec with Matchers with BDD with MockitoSugar {
 
-  val world = mock[World]
-
   "Entity Manager" should {
     "create new entity" in {
       Given
-      val em = new EntityManager(world)
+      val em = new EntityManager
 
       When
       val entity = em.acquireEntity()
@@ -22,23 +20,23 @@ class EntityManagerTest extends WordSpec with Matchers with BDD with MockitoSuga
 
     "find entities by id" in {
       Given
-      val em = new EntityManager(world)
-      em.acquireEntity()
+      val em = new EntityManager
+      val e = em.acquireEntity()
 
       When
-      val entity = em.get(0)
+      val entity = em.get(e.id)
 
       Then
-      entity shouldNot be (null)
+      entity.id shouldBe e.id
     }
 
     "release entities" in {
       Given
-      val em = new EntityManager(world)
-      val entity = em.acquireEntity()
+      val em = new EntityManager
+      em.acquireEntity()
 
       When
-      em.releaseEntity(entity)
+      em.releaseEntity(0)
 
       Then
       em.entityCount shouldBe 0
@@ -46,7 +44,7 @@ class EntityManagerTest extends WordSpec with Matchers with BDD with MockitoSuga
 
     "reuse released entity ids" in {
       Given
-      val em = new EntityManager(world)
+      val em = new EntityManager
       em.acquireEntity()
       em.acquireEntity()
       em.acquireEntity()

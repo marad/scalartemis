@@ -4,57 +4,58 @@ import marad.scalartemis.BDD
 import org.scalatest.mock.MockitoSugar
 import org.scalatest.{Matchers, WordSpec}
 
-class AspectTest extends WordSpec with Matchers with BDD with MockitoSugar {
-  class C1 extends Component
-  class C2 extends Component
-  class C3 extends Component
+import scala.collection.mutable
 
-  val world = mock[World]
-  val entity       = new EntityBuilder().withWorld(world).withId(3).build()
-  val entityC1     = new EntityBuilder().withWorld(world).withId(1).withComponents(new C1).build()
-  val entityC3     = new EntityBuilder().withWorld(world).withId(2).withComponents(new C3).build()
-  val entityC1C2   = new EntityBuilder().withWorld(world).withId(0).withComponents(new C1, new C2).build()
-  val entityC1C2C3 = new EntityBuilder().withWorld(world).withId(4).withComponents(new C1, new C2, new C3).build()
+class AspectTest extends WordSpec with Matchers with BDD with MockitoSugar {
+  object C1 extends Component
+  object C2 extends Component
+  object C3 extends Component
+
+  val emptySet = mutable.BitSet()
+  val setC1 = mutable.BitSet(C1.componentType.id)
+  val setC3 = mutable.BitSet(C3.componentType.id)
+  val setC1C2 = mutable.BitSet(C1.componentType.id, C2.componentType.id)
+  val setC1C2C3 = mutable.BitSet(C1.componentType.id, C2.componentType.id, C3.componentType.id)
 
   "AspectAll" should {
     "include only entities with all required components (or more)" in {
       When
-      val aspectAll = Aspect.forAll(classOf[C1], classOf[C2])
+      val aspectAll = Aspect.forAll(C1.getClass, C2.getClass)
 
       Then
-      aspectAll ~ entity       shouldBe false
-      aspectAll ~ entityC1     shouldBe false
-      aspectAll ~ entityC3     shouldBe false
-      aspectAll ~ entityC1C2   shouldBe true
-      aspectAll ~ entityC1C2C3 shouldBe true
+      aspectAll ~ emptySet  shouldBe false
+      aspectAll ~ setC1     shouldBe false
+      aspectAll ~ setC3     shouldBe false
+      aspectAll ~ setC1C2   shouldBe true
+      aspectAll ~ setC1C2C3 shouldBe true
     }
   }
 
   "AspectOneOff" should {
     "include entities with one of required components" in {
       When
-      val aspectOneOf = Aspect.forOneOf(classOf[C1], classOf[C2])
+      val aspectOneOf = Aspect.forOneOf(C1.getClass, C2.getClass)
 
       Then
-      aspectOneOf ~ entity       shouldBe false
-      aspectOneOf ~ entityC1     shouldBe true
-      aspectOneOf ~ entityC3     shouldBe false
-      aspectOneOf ~ entityC1C2   shouldBe true
-      aspectOneOf ~ entityC1C2C3 shouldBe true
+      aspectOneOf ~ emptySet  shouldBe false
+      aspectOneOf ~ setC1     shouldBe true
+      aspectOneOf ~ setC3     shouldBe false
+      aspectOneOf ~ setC1C2   shouldBe true
+      aspectOneOf ~ setC1C2C3 shouldBe true
     }
   }
 
   "AspectOnly" should {
     "include only entities with all required components (no more)" in {
       When
-      val aspectOnly = Aspect.onlyFor(classOf[C1], classOf[C2])
+      val aspectOnly = Aspect.onlyFor(C1.getClass, C2.getClass)
 
       Then
-      aspectOnly ~ entity       shouldBe false
-      aspectOnly ~ entityC1     shouldBe false
-      aspectOnly ~ entityC3     shouldBe false
-      aspectOnly ~ entityC1C2   shouldBe true
-      aspectOnly ~ entityC1C2C3 shouldBe false
+      aspectOnly ~ emptySet  shouldBe false
+      aspectOnly ~ setC1     shouldBe false
+      aspectOnly ~ setC3     shouldBe false
+      aspectOnly ~ setC1C2   shouldBe true
+      aspectOnly ~ setC1C2C3 shouldBe false
     }
   }
 }

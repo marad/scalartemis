@@ -1,17 +1,17 @@
 package marad.scalartemis.core
 
-import marad.scalartemis.core.ComponentTypeManager.ComponentClass
+import marad.scalartemis.core.entity.ComponentTypeManager
+import ComponentTypeManager.ComponentClass
 
 import scala.collection.BitSet
 
-abstract class Aspect {
-  def ~(entity: Entity): Boolean = this.~(entity.componentTypes)
+trait Aspect {
   def ~(types: BitSet): Boolean
 }
 
 class AspectAll(types: ComponentType*) extends Aspect {
   val set = BitSet(types.map(_.id):_*)
-  override def ~(types: BitSet): Boolean = (set & types) == set
+  override def ~(typeSet: BitSet): Boolean = (set & typeSet) == set
 }
 
 class AspectOneOf(types: ComponentType*) extends Aspect {
@@ -24,6 +24,14 @@ class AspectOnly(types: ComponentType*) extends Aspect {
   override def ~(types: BitSet): Boolean = (set ^ types).isEmpty
 }
 
+object AspectAny extends Aspect {
+  override def ~(types: BitSet): Boolean = true
+}
+
+object AspectNone extends Aspect {
+  override def ~(types: BitSet): Boolean = false
+}
+
 object Aspect {
   def forAll(componentClasses: ComponentClass*): Aspect =
     new AspectAll(componentClasses.map(ComponentTypeManager.getTypeFor):_*)
@@ -33,4 +41,7 @@ object Aspect {
 
   def onlyFor(componentClasses: ComponentClass*): Aspect =
     new AspectOnly(componentClasses.map(ComponentTypeManager.getTypeFor):_*)
+
+  def any = AspectAny
+  def none = AspectNone
 }

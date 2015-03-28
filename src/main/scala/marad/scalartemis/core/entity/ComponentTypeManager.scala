@@ -1,6 +1,7 @@
-package marad.scalartemis.core
+package marad.scalartemis.core.entity
 
 import marad.scalartemis.core.utils.IdGenerator
+import marad.scalartemis.core.{Component, ComponentType}
 
 import scala.collection.mutable
 
@@ -17,6 +18,5 @@ object ComponentTypeManager {
       componentType
   }
 
-  def getBit(c: ComponentClass): Long = getTypeFor(c).bit
   def getId(c: ComponentClass): Int = getTypeFor(c).id
 }
