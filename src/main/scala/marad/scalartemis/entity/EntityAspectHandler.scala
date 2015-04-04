@@ -24,10 +24,15 @@ class EntityAspectHandler {
     componentTypes(entityId).remove(componentType.id)
   }
 
-  def checkAspect(entityId: Int, aspect: Aspect): Boolean = aspect ~ componentTypes(entityId)
+  def checkAspect(entityId: Int, aspect: Aspect): Boolean =
+    componentTypes.defined(entityId) && aspect ~ componentTypes(entityId)
 
   def hasType(entityId: Int, componentType: ComponentType): Boolean =
     componentTypes.defined(entityId) && componentTypes(entityId).contains(componentType.id)
+
+  def ifHasAspect(entityId: Int, aspect: Aspect)(op: => Unit): Unit = if (checkAspect(entityId, aspect)) op
+
+  def ifHasType(entityId: Int, componentType: ComponentType)(op: => Unit): Unit = if (hasType(entityId, componentType)) op
 
   def resetEntity(entityId: Int): Unit =
     componentTypes(entityId) = new mutable.BitSet()

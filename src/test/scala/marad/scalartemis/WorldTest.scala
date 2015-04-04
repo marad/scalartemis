@@ -56,10 +56,27 @@ class WorldTest extends WordSpec with Matchers with BDD with OptionValues with M
     }
   }
 
+//  "Entity Sets" should {
+//    object C1 extends Component
+//    class EntitySetsImpl extends World.EntitySets with World.ComponentManagement
+//
+//    "create entity sets and add entities to them" in {
+//      Given
+//      val impl = new EntitySetsImpl
+//
+//      When
+//      impl.
+//    }
+//
+//  }
+
   "Entity Manager" should {
     object C1 extends Component
     object C2 extends Component
-    class EntityMgrImpl extends World.EntityManagement with World.ComponentManagement
+    class EntityMgrImpl
+      extends World.EntityManagement
+      with World.EntitySets
+      with World.ComponentManagement
 
     "create entities with components" in {
       Given
@@ -98,10 +115,52 @@ class WorldTest extends WordSpec with Matchers with BDD with OptionValues with M
       mgr.entities shouldBe empty
       mgr.getComponent(entity, C1.componentType) shouldBe None
     }
+
+    "create aspected entity lists for registered entity systems" in {
+      Given
+      object C1 extends Component
+      val mgr = new EntityMgrImpl with World.Systems
+      val aspect = Aspect.forAll(C1.getClass)
+      val entitySystem = mock[EntitySystem]
+      when(entitySystem.aspect) thenReturn aspect
+      mgr.registerSystem(entitySystem)
+
+      When
+      val e1 = mgr.createEntity(C1)
+      val e2 = mgr.createEntity()
+
+      Then
+      val entities = mgr.getEntitySet(aspect).entities
+      entities.contains(e1) shouldBe true
+      entities.contains(e2) shouldBe false
+    }
+
+    "create aspected entity lists from existing entities" in {
+      Given
+      object C1 extends Component
+      val mgr = new EntityMgrImpl with World.Systems
+      val aspect = Aspect.forAll(C1.getClass)
+      val e1 = mgr.createEntity(C1)
+      val e2 = mgr.createEntity()
+      val entitySystem = mock[EntitySystem]
+      when(entitySystem.aspect) thenReturn aspect
+
+      When
+      mgr.registerSystem(entitySystem)
+
+      Then
+      val entities = mgr.getEntitySet(aspect).entities
+      entities.contains(e1) shouldBe true
+      entities.contains(e2) shouldBe false
+    }
   }
 
   "Entity Systems" should {
-    class SystemsMgrImpl extends World.Systems with World.ComponentManagement
+    class SystemsMgrImpl
+      extends World.Systems
+      with World.EntityManagement
+      with World.EntitySets
+      with World.ComponentManagement
     object S1 extends EntitySystem(Aspect.any) {
       override def process(entity: Entity, delta: Float): Unit = ???
     }
@@ -143,6 +202,8 @@ class WorldTest extends WordSpec with Matchers with BDD with OptionValues with M
       object C2 extends Component
       val S1 = mock[EntitySystem]
       val S2 = mock[EntitySystem]
+      when(S1.aspect) thenReturn Aspect.any
+      when(S2.aspect) thenReturn Aspect.onlyFor(C1.getClass)
       val T1 = mock[UpdateTask]
       val world = new World
       val e1 = world.createEntity(C1, C2)
@@ -150,9 +211,6 @@ class WorldTest extends WordSpec with Matchers with BDD with OptionValues with M
       world.registerSystem(S1)
       world.registerSystem(S2)
       world.registerTask(T1)
-
-      when(S1.aspect) thenReturn Aspect.any
-      when(S2.aspect) thenReturn Aspect.onlyFor(C1.getClass)
 
       When
       world.update(1f)

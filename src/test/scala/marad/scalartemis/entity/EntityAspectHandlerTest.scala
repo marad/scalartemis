@@ -20,6 +20,18 @@ class EntityAspectHandlerTest extends WordSpec with Matchers with BDD {
       handler.checkAspect(0, Aspect.forAll(C1.getClass, C2.getClass)) shouldBe true
     }
 
+    "checking aspect should return false for undefined component types" in {
+      Given
+      val handler = new EntityAspectHandler
+
+      When
+      val result = handler.checkAspect(1234, Aspect.any)
+
+      Then
+      result shouldBe false
+    }
+
+
     "remove aspects from entity" in {
       Given
       val aspectAll = Aspect.forAll(C1.getClass, C2.getClass)

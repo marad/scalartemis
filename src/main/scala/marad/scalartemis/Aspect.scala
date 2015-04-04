@@ -10,17 +10,17 @@ trait Aspect {
   def ~(types: BitSet): Boolean
 }
 
-class AspectAll(types: ComponentType*) extends Aspect {
+case class AspectAll(types: ComponentType*) extends Aspect {
   val set = BitSet(types.map(_.id):_*)
   override def ~(typeSet: BitSet): Boolean = (set & typeSet) == set
 }
 
-class AspectOneOf(types: ComponentType*) extends Aspect {
+case class AspectOneOf(types: ComponentType*) extends Aspect {
   val set = BitSet(types.map(_.id):_*)
   override def ~(types: BitSet): Boolean = (set & types).nonEmpty
 }
 
-class AspectOnly(types: ComponentType*) extends Aspect {
+case class AspectOnly(types: ComponentType*) extends Aspect {
   val set = BitSet(types.map(_.id):_*)
   override def ~(types: BitSet): Boolean = (set ^ types).isEmpty
 }
