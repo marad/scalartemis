@@ -1,6 +1,5 @@
 package marad.scalartemis
 
-import marad.scalartemis.entity.ComponentTypeManager
 import ComponentTypeManager.ComponentClass
 
 import scala.collection.BitSet

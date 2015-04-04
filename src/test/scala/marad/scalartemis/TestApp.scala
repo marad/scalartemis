@@ -1,7 +1,5 @@
 package marad.scalartemis
 
-import marad.scalartemis.entity.Entity
-
 object TestApp {
 
   class C1 extends Component {
@@ -13,9 +11,11 @@ object TestApp {
     extends EntitySystem(Aspect.forAll(classOf[C1]))
     with ComponentMapping
   {
-    override def process(entity: Entity, delta: Float): Unit = {
-      val c: Option[C1] = component[C1](entity)
-      println(s"Processing entity ${entity.id}. Message: ${c.get.msg}")
+    override def process(delta: Float): Unit = {
+      entities.foreach { entity =>
+        val c: Option[C1] = component[C1](entity)
+        println(s"Processing entity ${entity.id}. Message: ${c.get.msg}")
+      }
     }
   }
 
@@ -24,8 +24,8 @@ object TestApp {
     world.registerSystem(new TestSystem(world))
     world.createEntity(new C1, new C2)
     world.createEntity(new C1, new C2)
-    world.createEntity(new C1)
     world.createEntity(new C2)
+    world.createEntity(new C1)
 
     world.update(1/60f)
   }

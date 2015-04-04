@@ -162,7 +162,7 @@ class WorldTest extends WordSpec with Matchers with BDD with OptionValues with M
       with World.EntitySets
       with World.ComponentManagement
     object S1 extends EntitySystem(Aspect.any) {
-      override def process(entity: Entity, delta: Float): Unit = ???
+      override def process(delta: Float): Unit = ???
     }
 
     "register system" in {
@@ -177,50 +177,19 @@ class WorldTest extends WordSpec with Matchers with BDD with OptionValues with M
     }
   }
 
-  "Tasks" should {
-    class TasksMgrImpl extends World.Tasks
-    object T1 extends UpdateTask {
-      override def update(delta: Float): Unit = ???
-    }
-
-    "register task" in {
-      Given
-      val mgr = new TasksMgrImpl
-
-      When
-      mgr.registerTask(T1)
-
-      Then
-      mgr.tasks should have size 1
-    }
-  }
-
   "World" should {
     "run tasks and process entity systems on update" in {
       Given
-      object C1 extends Component
-      object C2 extends Component
       val S1 = mock[EntitySystem]
-      val S2 = mock[EntitySystem]
       when(S1.aspect) thenReturn Aspect.any
-      when(S2.aspect) thenReturn Aspect.onlyFor(C1.getClass)
-      val T1 = mock[UpdateTask]
       val world = new World
-      val e1 = world.createEntity(C1, C2)
-      val e2 = world.createEntity(C1)
       world.registerSystem(S1)
-      world.registerSystem(S2)
-      world.registerTask(T1)
 
       When
       world.update(1f)
 
       Then
-      verify(S1).process(e1, 1f)
-      verify(S1).process(e2, 1f)
-      verify(S2, times(0)).process(e1, 1f)
-      verify(S2).process(e2, 1f)
-      verify(T1).update(1f)
+      verify(S1).process(1f)
     }
   }
 }

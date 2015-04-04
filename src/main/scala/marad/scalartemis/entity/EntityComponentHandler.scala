@@ -1,6 +1,7 @@
 package marad.scalartemis.entity
 
-import marad.scalartemis.entity.ComponentTypeManager.ComponentClass
+import marad.scalartemis.{ComponentTypeManager, Component, ComponentType}
+import ComponentTypeManager.ComponentClass
 import marad.scalartemis.utils.DynamicArray
 import marad.scalartemis.{Component, ComponentType}
 

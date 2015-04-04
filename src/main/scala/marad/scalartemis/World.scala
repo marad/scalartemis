@@ -1,23 +1,17 @@
 package marad.scalartemis
 
-import marad.scalartemis.World.ComponentManagement
 import marad.scalartemis.entity.{EntityComponentHandler, EntityAspectHandler, EntityManager, Entity}
 import marad.scalartemis.exception.ComponentNotFoundException
 import marad.scalartemis.utils.{EntitySet, Bag, MutableBag}
 
-import scala.collection.BitSet
 import scala.collection.mutable
 
 class World
     extends World.ComponentManagement
     with World.EntityManagement
     with World.EntitySets
-    with World.Systems
-    with World.Tasks {
-  def update(delta: Float): Unit = {
-    runTasks(delta)
-    updateSystems(entities, delta)
-  }
+    with World.Systems {
+  def update(delta: Float): Unit = updateSystems(delta)
 }
 
 object World {
@@ -117,25 +111,7 @@ object World {
       _systems.add(entitySystem)
     }
 
-    protected def updateSystems(entities: Bag[Entity], delta: Float): Unit =
-      _systems.foreach { s =>
-        entities
-          .filter(entity => entityAspectHandler.checkAspect(entity.id, s.aspect))
-          .foreach(s.process(_, delta))
-      }
-  }
-
-  /**
-   * Manages custom tasks
-   */
-  trait Tasks {
-    protected val _tasks = new MutableBag[UpdateTask]
-
-    def tasks: Bag[UpdateTask] = _tasks
-
-    def registerTask(updateTask: UpdateTask): Unit =
-      _tasks.add(updateTask)
-
-    protected def runTasks(delta: Float) = _tasks.foreach(_.update(delta))
+    protected def updateSystems(delta: Float): Unit =
+      _systems.foreach(_.process(delta))
   }
 }
