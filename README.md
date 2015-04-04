@@ -12,8 +12,13 @@ The only difference is that by I changed their names to `MutableBag` and `Bag` r
 ## Development
 This project is under development but should mostly work already ;)
 
-## Example 
+## Usage
+For now I don't offer any binary files to be used. If you want to use the library you should clone the repository and run task:
+>      sbt package
 
+This will generate JAR file in `target/scala-2.11/` folder.
+
+## Example 
 ```scala
 case class Position(var x: Int, var y: Int) extends Component
 
