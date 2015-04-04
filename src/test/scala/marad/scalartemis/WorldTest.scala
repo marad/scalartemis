@@ -11,7 +11,7 @@ class WorldTest extends WordSpec with Matchers with BDD with OptionValues with M
     object C1 extends Component
     object C2 extends Component
 
-    class ComponentMgrImpl extends World.ComponentManagement
+    class ComponentMgrImpl extends World.ComponentManagement with World.AspectManagement
 
     "register components for entities" in {
       Given
@@ -55,25 +55,12 @@ class WorldTest extends WordSpec with Matchers with BDD with OptionValues with M
     }
   }
 
-//  "Entity Sets" should {
-//    object C1 extends Component
-//    class EntitySetsImpl extends World.EntitySets with World.ComponentManagement
-//
-//    "create entity sets and add entities to them" in {
-//      Given
-//      val impl = new EntitySetsImpl
-//
-//      When
-//      impl.
-//    }
-//
-//  }
-
   "Entity Manager" should {
     object C1 extends Component
     object C2 extends Component
     class EntityMgrImpl
       extends World.EntityManagement
+      with World.AspectManagement
       with World.EntitySets
       with World.ComponentManagement
 
@@ -157,6 +144,7 @@ class WorldTest extends WordSpec with Matchers with BDD with OptionValues with M
   "Entity Systems" should {
     class SystemsMgrImpl
       extends World.Systems
+      with World.AspectManagement
       with World.EntityManagement
       with World.EntitySets
       with World.ComponentManagement

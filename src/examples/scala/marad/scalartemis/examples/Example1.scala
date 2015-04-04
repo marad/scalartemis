@@ -10,7 +10,7 @@ object Example1 {
 
   // System for controlling entity positions
   class ControlSystem(val world: World)
-    extends EntitySystem(Aspect.forAll[Position, Player])
+    extends SequentialProcessingSystem(Aspect.forAll[Position, Player])
     with ComponentMapping {
 
     override def process(entity: Entity, delta: Float): Unit = {
@@ -22,7 +22,7 @@ object Example1 {
 
   // System for rendering entities on screen
   class RenderSystem(val world: World)
-    extends EntitySystem(Aspect.forAll[Position, RenderInfo])
+    extends SequentialProcessingSystem(Aspect.forAll[Position, RenderInfo])
     with ComponentMapping {
 
     override def process(entity: Entity, delta: Float): Unit = {

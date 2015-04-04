@@ -7,7 +7,8 @@ import marad.scalartemis.core.utils.{EntitySet, Bag, MutableBag}
 import scala.collection.mutable
 
 class World
-    extends World.ComponentManagement
+    extends World.AspectManagement
+    with World.ComponentManagement
     with World.EntityManagement
     with World.EntitySets
     with World.Systems {
@@ -16,12 +17,15 @@ class World
 
 object World {
 
+  trait AspectManagement {
+    protected val entityAspectHandler = new EntityAspectHandler
+  }
+
   /**
    * Manages entity components
    */
-  trait ComponentManagement {
+  trait ComponentManagement { this : AspectManagement =>
     protected val entityComponentHandler = new EntityComponentHandler
-    protected val entityAspectHandler = new EntityAspectHandler
 
     def addComponent(entity: Entity, component: Component): Unit = {
       entityAspectHandler.addType(entity.id, component)
@@ -70,7 +74,7 @@ object World {
   /**
    * Manages entity sets
    */
-  trait EntitySets { this : ComponentManagement with EntityManagement =>
+  trait EntitySets { this : AspectManagement with EntityManagement =>
     protected val _entitySets = new mutable.HashMap[Aspect, EntitySet]
 
     def getEntitySet(aspect: Aspect): EntitySet =
@@ -101,7 +105,7 @@ object World {
   /**
    * Manages entity systems
    */
-  trait Systems { this : ComponentManagement with EntitySets =>
+  trait Systems { this : EntitySets =>
     protected val _systems = new MutableBag[EntitySystem]
 
     def systems: Bag[EntitySystem] = _systems
