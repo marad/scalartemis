@@ -1,6 +1,6 @@
 package marad.scalartemis
 
-import marad.scalartemis.entity.Entity
+import marad.scalartemis.core.ComponentTypeManager
 
 import scala.reflect.{ClassTag, classTag}
 

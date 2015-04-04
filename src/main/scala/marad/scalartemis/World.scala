@@ -1,8 +1,8 @@
 package marad.scalartemis
 
-import marad.scalartemis.entity.{EntityComponentHandler, EntityAspectHandler, EntityManager, Entity}
+import marad.scalartemis.core.{EntityManager, EntityComponentHandler, EntityAspectHandler, ComponentType}
 import marad.scalartemis.exception.ComponentNotFoundException
-import marad.scalartemis.utils.{EntitySet, Bag, MutableBag}
+import marad.scalartemis.core.utils.{EntitySet, Bag, MutableBag}
 
 import scala.collection.mutable
 

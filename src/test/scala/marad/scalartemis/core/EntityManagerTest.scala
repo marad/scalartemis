@@ -1,4 +1,4 @@
-package marad.scalartemis.entity
+package marad.scalartemis.core
 
 import marad.scalartemis.BDD
 import org.scalatest.mock.MockitoSugar

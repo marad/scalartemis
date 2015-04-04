@@ -1,6 +1,5 @@
 package marad.scalartemis.examples
 
-import marad.scalartemis.entity.Entity
 import marad.scalartemis._
 
 object Example1 {

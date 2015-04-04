@@ -1,10 +1,9 @@
 package marad.scalartemis
 
-import marad.scalartemis.entity.Entity
 import marad.scalartemis.exception.ComponentNotFoundException
 import org.scalatest.mock.MockitoSugar
 import org.scalatest.{OptionValues, Matchers, WordSpec}
-import org.mockito.Mockito.{when, verify, times}
+import org.mockito.Mockito.{when, verify}
 
 
 class WorldTest extends WordSpec with Matchers with BDD with OptionValues with MockitoSugar {

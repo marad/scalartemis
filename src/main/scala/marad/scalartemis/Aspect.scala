@@ -1,6 +1,8 @@
 package marad.scalartemis
 
+import marad.scalartemis.core.{ComponentTypeManager, ComponentType}
 import ComponentTypeManager.ComponentClass
+import marad.scalartemis.core.ComponentType
 
 import scala.collection.BitSet
 import scala.reflect.{ClassTag, classTag}

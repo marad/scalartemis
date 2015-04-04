@@ -1,6 +1,6 @@
-package marad.scalartemis.entity
+package marad.scalartemis.core
 
-import marad.scalartemis.{BDD, Aspect, Component}
+import marad.scalartemis.{Aspect, BDD, Component}
 import org.scalatest.{Matchers, WordSpec}
 
 class EntityAspectHandlerTest extends WordSpec with Matchers with BDD {

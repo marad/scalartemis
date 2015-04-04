@@ -1,4 +1,4 @@
-package marad.scalartemis.utils
+package marad.scalartemis.core.utils
 
 /**
  * This array let's you store values in array without worying about it's size.

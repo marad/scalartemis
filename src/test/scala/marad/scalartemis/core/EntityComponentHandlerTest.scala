@@ -1,7 +1,7 @@
-package marad.scalartemis.entity
+package marad.scalartemis.core
 
 import marad.scalartemis.{BDD, Component}
-import org.scalatest.{OptionValues, Matchers, WordSpec}
+import org.scalatest.{Matchers, OptionValues, WordSpec}
 
 class EntityComponentHandlerTest extends WordSpec with Matchers with BDD with OptionValues {
 

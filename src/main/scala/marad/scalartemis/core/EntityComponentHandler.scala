@@ -1,9 +1,8 @@
-package marad.scalartemis.entity
+package marad.scalartemis.core
 
-import marad.scalartemis.{ComponentTypeManager, Component, ComponentType}
-import ComponentTypeManager.ComponentClass
-import marad.scalartemis.utils.DynamicArray
-import marad.scalartemis.{Component, ComponentType}
+import marad.scalartemis.Component
+import marad.scalartemis.core.ComponentTypeManager.ComponentClass
+import marad.scalartemis.core.utils.DynamicArray
 
 class EntityComponentHandler {
   private val components = new DynamicArray[DynamicArray[Component]]()

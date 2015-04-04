@@ -1,4 +1,4 @@
-package marad.scalartemis.utils
+package marad.scalartemis.core.utils
 
 import marad.scalartemis.BDD
 import org.scalacheck.Gen

@@ -1,6 +1,6 @@
-package marad.scalartemis.utils
+package marad.scalartemis.core.utils
 
-import marad.scalartemis.entity.Entity
+import marad.scalartemis.Entity
 
 class EntitySet {
   private val _entities = new MutableBag[Entity]
