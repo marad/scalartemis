@@ -1,6 +1,7 @@
 package marad.scalartemis.examples
 
 import marad.scalartemis._
+import marad.scalartemis.systems.SequentialProcessingSystem
 
 object Example1 {
   // Declaring used components

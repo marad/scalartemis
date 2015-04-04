@@ -1,6 +1,6 @@
 package marad.scalartemis
 
-import marad.scalartemis.core.{ComponentTypeManager, ComponentType}
+import marad.scalartemis.core.ComponentTypeManager
 import ComponentTypeManager.ComponentClass
 import marad.scalartemis.core.ComponentType
 
