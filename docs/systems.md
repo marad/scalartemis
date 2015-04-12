@@ -51,11 +51,10 @@ entity:
 class SomeSystem(val world: World)
 extends SequentialProcessingSystem(Aspect.all)
 with ComponentMapping {
-  override def process(entity: Entity, delta: Float) = {
+  override def process(entity: Entity, delta: Float) =
     component[Position](entity) match {
       case Some(position) => // ...
       case None => // ...
     }
-  }
 }
 ```
