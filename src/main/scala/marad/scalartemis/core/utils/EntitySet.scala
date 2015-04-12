@@ -2,10 +2,25 @@ package marad.scalartemis.core.utils
 
 import marad.scalartemis.Entity
 
+import scala.collection.mutable
+
 class EntitySet {
+  private val _entityIds = new mutable.BitSet
   private val _entities = new MutableBag[Entity]
 
   def entities: Bag[Entity] = _entities
-  def addEntity(entity: Entity) = _entities.add(entity)
-  def removeEntity(entity: Entity) = _entities.remove(entity)
+
+  def contains(entity: Entity) = _entityIds.contains(entity.id)
+
+  def add(entity: Entity) =
+    if (!contains(entity)) {
+      _entityIds += entity.id
+      _entities.add(entity)
+    }
+
+  def removeIfContained(entity: Entity) =
+    if (contains(entity)) {
+      _entities.remove(entity)
+      _entityIds -= entity.id
+    }
 }

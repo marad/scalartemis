@@ -29,7 +29,7 @@ object Example1 {
     override def process(entity: Entity, delta: Float): Unit = {
       val position = component[Position](entity)
       val renderInfo = component[RenderInfo](entity)
-      // TODO: draw renderInfo.symbol at (position.x, position.y)
+      
     }
   }
 
@@ -44,7 +44,7 @@ object Example1 {
     world.createEntity(Position(5, 5), RenderInfo('$'))
 
     // Run world update loop
-    for(i <- 0 to 10)
+    for(i <- 0 to 3)
       world.update(1f)
   }
 }

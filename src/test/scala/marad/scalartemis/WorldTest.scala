@@ -11,7 +11,8 @@ class WorldTest extends WordSpec with Matchers with BDD with OptionValues with M
     object C1 extends Component
     object C2 extends Component
 
-    class ComponentMgrImpl extends World.ComponentManagement with World.AspectManagement
+    class ComponentMgrImpl extends World.ComponentManagement  with World.AspectManagement
+    with World.EntitySets with World.EntityManagement
 
     "register components for entities" in {
       Given
@@ -161,6 +162,75 @@ class WorldTest extends WordSpec with Matchers with BDD with OptionValues with M
 
       Then
       mgr.systems should have size 1
+    }
+  }
+
+  "Entity Sets" should {
+    class SetsMgrImpl
+      extends World.EntitySets
+      with World.EntityManagement
+      with World.ComponentManagement
+      with World.AspectManagement
+      with World.Systems
+
+    object C1 extends Component
+    val aspect = Aspect.forAll(C1.getClass)
+    object S1 extends EntitySystem(aspect) {
+      override def process(delta: Float): Unit = ???
+    }
+
+    "create entity sets for registered systems" in {
+      Given
+      val mgr = new SetsMgrImpl
+      val entity = mgr.createEntity(C1)
+
+      When
+      mgr.registerSystem(S1)
+
+      Then
+      val set = mgr.getEntitySet(aspect)
+      set.contains(entity) shouldBe true
+    }
+
+    "update entity set when creating new entity" in {
+      Given
+      val mgr = new SetsMgrImpl
+      mgr.registerSystem(S1)
+
+      When
+      val entity = mgr.createEntity(C1)
+
+      Then
+      val set = mgr.getEntitySet(aspect)
+      set.contains(entity) shouldBe true
+    }
+
+    "update entity set after adding component to entity" in {
+      Given
+      val mgr = new SetsMgrImpl
+      mgr.registerSystem(S1)
+      val entity = mgr.createEntity()
+
+      When
+      mgr.addComponent(entity, C1)
+
+      Then
+      val set = mgr.getEntitySet(aspect)
+      set.contains(entity) shouldBe true
+    }
+
+    "update entity set after removing component from entity" in {
+      Given
+      val mgr = new SetsMgrImpl
+      val entity = mgr.createEntity(C1)
+      mgr.registerSystem(S1)
+
+      When
+      mgr.removeComponent(entity, C1.componentType)
+
+      Then
+      val set = mgr.getEntitySet(aspect)
+      set.contains(entity) shouldBe false
     }
   }
 

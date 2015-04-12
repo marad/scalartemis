@@ -24,13 +24,13 @@ object World {
   /**
    * Manages entity components
    */
-  trait ComponentManagement { this : AspectManagement =>
+  trait ComponentManagement { this : AspectManagement with EntitySets =>
     protected val entityComponentHandler = new EntityComponentHandler
 
     def addComponent(entity: Entity, component: Component): Unit = {
-      // TODO: should update the entity sets if entity has now new aspect
       entityAspectHandler.addType(entity.id, component)
       entityComponentHandler.addComponent(entity.id, component)
+      addEntityToMatchingSets(entity)
     }
 
     def removeComponent(entity: Entity, componentType: ComponentType): Unit = {
@@ -39,6 +39,7 @@ object World {
 
       entityAspectHandler.removeType(entity.id, componentType)
       entityComponentHandler.removeComponent(entity.id, componentType)
+      removeEntityFromNotMatchingSets(entity)
     }
 
     def getComponent(entity: Entity, componentType: ComponentType): Option[Component] =
@@ -61,13 +62,13 @@ object World {
     def createEntity(components: Component*): Entity = {
       val entity = entityManager.acquireEntity()
       components.foreach(addComponent(entity, _))
-      addEntityToSets(entity)
+      addNewEntityToSets(entity)
       entity
     }
 
     def destroyEntity(entity: Entity): Unit = {
       resetComponents(entity)
-      removeEntityFromSets(entity)
+      removeDestroyedEntityFromSets(entity)
       entityManager.releaseEntity(entity.id)
     }
   }
@@ -85,21 +86,35 @@ object World {
         set
       })
 
-    protected def addEntityToSets(entity: Entity): Unit =
+    protected def addNewEntityToSets(entity: Entity): Unit =
       _entitySets.foreach { case (aspect, set) =>
         addToSetIfAspectMatches(entity, aspect, set)
       }
 
-    protected def removeEntityFromSets(entity: Entity): Unit =
+    protected def removeDestroyedEntityFromSets(entity: Entity): Unit =
       _entitySets.foreach { case (aspect, set) =>
-        entityAspectHandler.ifHasAspect(entity.id, aspect) {
-          set.removeEntity(entity)
-        }
+        if (set.contains(entity))
+          set.removeIfContained(entity)
+      }
+
+    protected def addEntityToMatchingSets(entity: Entity): Unit =
+      _entitySets.foreach { case (aspect, set) =>
+          addToSetIfAspectMatches(entity, aspect, set)
+      }
+
+    protected def removeEntityFromNotMatchingSets(entity: Entity): Unit =
+      _entitySets.foreach { case (aspect, set) =>
+          removeFromSetIfAspectDoesNotMatch(entity, aspect, set)
       }
 
     private def addToSetIfAspectMatches(entity: Entity, aspect: Aspect, entitySet: EntitySet): Unit =
       entityAspectHandler.ifHasAspect(entity.id, aspect) {
-        entitySet.addEntity(entity)
+        entitySet.add(entity)
+      }
+
+    private def removeFromSetIfAspectDoesNotMatch(entity: Entity, aspect: Aspect, entitySet: EntitySet): Unit =
+      if (!entityAspectHandler.checkAspect(entity.id, aspect)) {
+        entitySet.removeIfContained(entity)
       }
   }
 
