@@ -26,10 +26,14 @@ object Example1 {
     extends SequentialProcessingSystem(Aspect.forAll[Position, RenderInfo])
     with ComponentMapping {
 
-    override def process(entity: Entity, delta: Float): Unit = {
-      val position = component[Position](entity)
-      val renderInfo = component[RenderInfo](entity)
-      
+    override def process(entity:Entity, delta: Float): Unit = {
+//      terminal.clear()
+      (component[Position](entity), component[RenderInfo](entity)) match {
+        case (Some(position), Some(info)) =>
+//          terminal.setCursorPosition(position.x, position.y)
+//          terminal.putCharacter(info.symbol)
+        case _ =>
+      }
     }
   }
 
@@ -44,7 +48,8 @@ object Example1 {
     world.createEntity(Position(5, 5), RenderInfo('$'))
 
     // Run world update loop
-    for(i <- 0 to 3)
+    for(i <- 0 to 5) {
       world.update(1f)
+    }
   }
 }
