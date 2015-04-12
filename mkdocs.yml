@@ -1,0 +1,7 @@
+site_name: Scalartemis Docs
+theme: readthedocs
+pages:
+- [introduction.md, Overview]
+- [components.md, Components]
+- [aspects.md, Aspects]
+- [systems.md, Systems]

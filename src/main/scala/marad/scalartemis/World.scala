@@ -28,6 +28,7 @@ object World {
     protected val entityComponentHandler = new EntityComponentHandler
 
     def addComponent(entity: Entity, component: Component): Unit = {
+      // TODO: should update the entity sets if entity has now new aspect
       entityAspectHandler.addType(entity.id, component)
       entityComponentHandler.addComponent(entity.id, component)
     }
