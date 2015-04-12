@@ -1,7 +1,9 @@
 site_name: Scalartemis Docs
+site_author: marad
+
 theme: readthedocs
 pages:
-- [introduction.md, Overview]
+- [index.md, Overview]
 - [components.md, Components]
 - [aspects.md, Aspects]
 - [systems.md, Systems]
