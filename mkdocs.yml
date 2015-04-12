@@ -4,6 +4,7 @@ site_author: marad
 theme: readthedocs
 pages:
 - [index.md, Overview]
+- [world.md, World]
 - [components.md, Components]
 - [aspects.md, Aspects]
 - [systems.md, Systems]
