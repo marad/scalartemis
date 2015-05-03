@@ -1,19 +1,22 @@
 # scalartemis
 
-I firstly wanted to just rewrite the Artemis framework to Scala, but I discovered that the architecture of 
-the Artemis framework doesn't meet my expectations. So Artemis gave me the overall view what should it 
+At first I just wanted to rewrite the Artemis framework to Scala, but I discovered that the architecture of
+the Artemis framework doesn't meet my expectations. So Artemis gave me the overall view what should it
 look like. Almost everything else is entirely new.
 
 ## Development
 This project is under development but should mostly work already ;)
 
-## Usage
-For now I don't offer any binary files to be used. If you want to use the library you should clone the repository and run task:
->      sbt package
+## Usage SBT 0.13.6+
+In SBT 0.13.6+ you only need to add my Bintray repository
 
-This will generate JAR file in `target/scala-2.11/` folder.
+>      resolvers += Resolver.bintrayRepo("moriturius", "maven")
 
-## Example 
+and add the dependency
+
+>      libraryDependencies += "marad.scalartemis" %% "scalartemis" % "1.0.0"
+
+## Example
 ```scala
 case class Position(var x: Int, var y: Int) extends Component
 
