@@ -14,7 +14,7 @@ In SBT 0.13.6+ you only need to add my Bintray repository
 
 and add the dependency
 
->      libraryDependencies += "marad.scalartemis" %% "scalartemis" % "1.0.0"
+>      libraryDependencies += "io.github.marad" %% "scalartemis" % "1.0.0"
 
 ## Example
 ```scala
