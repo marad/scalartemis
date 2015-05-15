@@ -1,4 +1,4 @@
-organization := "marad.scalartemis"
+organization := "io.github.marad"
 name := "scalartmis"
 version := "1.0.0"
 
