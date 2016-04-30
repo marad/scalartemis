@@ -4,8 +4,9 @@ At first I just wanted to rewrite the Artemis framework to Scala, but I discover
 the Artemis framework doesn't meet my expectations. So Artemis gave me the overall view what should it
 look like. Almost everything else is entirely new.
 
-## Development
-This project is under development but should mostly work already ;)
+## Documentation
+
+http://scalartemis.readthedocs.io/en/latest/
 
 ## Usage SBT 0.13.6+
 In SBT 0.13.6+ you only need to add my Bintray repository
